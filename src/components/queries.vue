@@ -6,7 +6,7 @@
             ]"
         >
             <h1>Queries</h1>
-            <div>
+            <div v-if="loaded">
                 <div v-if="!hasAnyStoredQueries || showForm">
                     <form
                         class="isolate -space-y-px rounded-md shadow-sm"
@@ -90,21 +90,18 @@
                     v-else
                     role="list" class="divide-y divide-gray-200"
                 >
-                    <li v-for="activityItem in activityItems" :key="activityItem.id" class="py-4">
+                    <li
+                        v-for="variation in queryVariations"
+                        :key="variation"
+                        class="py-4"
+                    >
                         <div class="flex space-x-3">
-                            <img class="h-6 w-6 rounded-full" :src="activityItem.person.imageUrl" alt="">
                             <div class="flex-1 space-y-1">
                                 <div class="flex items-center justify-between">
                                     <h3 class="text-sm font-medium">
-                                        {{ activityItem.person.name }}
+                                        {{ variation }}
                                     </h3>
-                                    <p class="text-sm">
-                                        {{ activityItem.time }}
-                                    </p>
                                 </div>
-                                <p class="text-sm">
-                                    Deployed {{ activityItem.project }} ({{ activityItem.commit }} in master) to {{ activityItem.environment }}
-                                </p>
                             </div>
                         </div>
                     </li>
@@ -120,6 +117,7 @@ import type {
 } from '~/utils/queries'
 import {
     buildQuery,
+    getVariations,
 } from '~/utils/queries'
 import { getQueries, storeQuery } from '~/utils/storage'
 
@@ -199,7 +197,15 @@ export default {
             return this.storedQueries.length > 0
         },
         hasTerms () {
-            return this.options.terms.trim().length > 0
+            if ( !this.options.terms ) {
+                return false
+            }
+
+            return this.options.terms?.trim()?.length > 0
+        },
+
+        queryVariations () {
+            return getVariations( this.query )
         },
     },
     mounted () {
@@ -208,7 +214,7 @@ export default {
                 this.storedQueries = queries
 
                 if ( queries.length ) {
-                    this.options.terms = queries[ 0 ]
+                    this.options.terms = queries[ 0 ].text
                 }
 
                 this.loaded = true

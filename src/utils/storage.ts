@@ -4,8 +4,7 @@ import { parseQuery } from '~/utils/queries'
 
 // Changing this value can wipe out all local user storage
 // so change at your own peril
-const base = 'app:'
-const queriesBase = 'queries:'
+const queriesBase = 'queries'
 const UUID_NAMESPACE = '1a3cbda5-7c19-408d-ac04-9d0559a6cc28'
 
 let storage: ReturnType<typeof createStorage>
@@ -22,7 +21,7 @@ export async function getStorage () {
     const defaultStorage = createStorage( {
         // @ts-expect-error: Error from inline import
         driver: localStorageDriver( {
-            base,
+            base: queriesBase,
         } ),
     } )
 
@@ -45,7 +44,7 @@ function derriveUUIDFromQuery ( query: string ) {
 export async function getQueryKeys (): Promise<Array<string>> {
     const storage = await getStorage()
 
-    const queryKeys = await storage.getKeys( base + queriesBase )
+    const queryKeys = await storage.getKeys( queriesBase )
 
     return queryKeys
 }
@@ -55,9 +54,13 @@ export async function getQueries (): Promise<StoredQuery[]> {
 
     const queryKeys = await getQueryKeys()
 
-    console.log( { queryKeys } )
+    const queries = await Promise.all( queryKeys.map( ( key ) => {
+        // We have to omit the base key from the key name
+        // since we're already on Query storage
+        const queryUUID = key.replace( `${ queriesBase }:`, '' )
 
-    const queries = await Promise.all( queryKeys.map( key => storage.getItem( key ) ) )
+        return storage.getItem( queryUUID )
+    } ) )
 
     return queries as Array<StoredQuery>
 }
@@ -68,7 +71,7 @@ export async function storeQuery ( query: StoredQuery ): Promise<StoredQuery> {
     // Set the date to now if it's not set
     query.date = Date.now()
 
-    const key = `${ queriesBase }${ derriveUUIDFromQuery( query.text ) }`
+    const key = derriveUUIDFromQuery( query.text )
 
     await storage.setItem( key, query )
 
