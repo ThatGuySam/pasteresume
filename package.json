@@ -4,6 +4,7 @@
   "version": "0.9.8",
   "private": true,
   "scripts": {
+    "test": "vitest",
     "dev": "astro dev",
     "start": "astro dev",
     "build": "astro build",
