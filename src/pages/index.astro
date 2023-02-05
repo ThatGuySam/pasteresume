@@ -1,6 +1,7 @@
 ---
 import { SITE } from '~/config.mjs'
 import Layout from '~/layouts/PageLayout.astro'
+import Queries from '~/components/queries.vue'
 
 const meta = {
   title: SITE.title,
@@ -11,6 +12,6 @@ const meta = {
 
 <Layout {meta}>
     <div>
-        App
+        <Queries />
     </div>
 </Layout>
