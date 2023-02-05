@@ -71,6 +71,8 @@ module.exports = {
                 'no-mixed-spaces-and-tabs': [ 'error', 'smart-tabs' ],
                 'indent': 'off',
                 '@typescript-eslint/indent': 'off',
+                'multiline-ternary': 'off',
+                '@typescript-eslint/ban-ts-comment': 'off',
             },
         },
         {
