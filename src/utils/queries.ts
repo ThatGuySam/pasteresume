@@ -1,4 +1,5 @@
 import * as chrono from 'chrono-node'
+import type { QueryPart } from './queries'
 
 export interface QueryPart {
     type: string
@@ -128,4 +129,49 @@ export function buildQuery ( inputQueryParts: QueryPart[] ): string {
     return queryParts
         .map( string => string.trim() )
         .join( ' ' )
+}
+
+function parseQueryPart ( part: string ): QueryPart {
+    if ( part.startsWith( 'site:' ) ) {
+        const site = part.replace( 'site:', '' )
+
+        return {
+            type: 'site',
+            input: site,
+        }
+    }
+    else if ( part.startsWith( 'after:' ) ) {
+        const date = part.replace( 'after:', '' )
+
+        return {
+            type: 'last-month',
+            input: date,
+        }
+    }
+    else if ( part.includes( '..' ) ) {
+        const [ min, max ] = part.split( '..' ).map( str => parseInt( str, 10 ) )
+
+        return {
+            type: 'salary',
+            input: [ min, max ],
+        }
+    }
+    else {
+        return {
+            type: 'text',
+            input: part,
+        }
+    }
+}
+
+export function parseQuery ( query: string ): QueryPart[] {
+    const queryParts: QueryPart[] = []
+
+    const parts = query.split( ' ' )
+
+    for ( const part of parts ) {
+        queryParts.push( parseQueryPart( part ) )
+    }
+
+    return queryParts
 }

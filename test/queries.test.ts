@@ -1,5 +1,6 @@
 import { expect, test } from 'vitest'
-import { buildQuery } from '~/utils/queries'
+import type { QueryPart } from '~/utils/queries'
+import { buildQuery, parseQuery } from '~/utils/queries'
 
 test( 'Can test', async () => {
     expect( test ).toBeTruthy()
@@ -8,7 +9,11 @@ test( 'Can test', async () => {
 const remoteMarketing = [
     {
         type: 'text',
-        input: 'remote marketing',
+        input: 'remote',
+    },
+    {
+        type: 'text',
+        input: 'marketing',
     },
     {
         type: 'site',
@@ -16,11 +21,25 @@ const remoteMarketing = [
     },
 ]
 
+function expectMatchingTypes ( parts: QueryPart[] ) {
+    return expect.arrayContaining(
+        parts.map( part => (
+            expect.objectContaining( {
+                type: part.type,
+            } )
+        ) ),
+    )
+}
+
 test( 'Can build for remote designer jobs', () => {
-    const queryParts = [
+    const remoteDeigner = [
         {
             type: 'text',
-            input: 'remote designer',
+            input: 'remote',
+        },
+        {
+            type: 'text',
+            input: 'designer',
         },
         {
             type: 'site',
@@ -28,29 +47,53 @@ test( 'Can build for remote designer jobs', () => {
         },
     ]
 
-    expect( buildQuery( queryParts ) )
+    const remoteDeignerQuery = buildQuery( remoteDeigner )
+
+    expect( remoteDeignerQuery )
         .toBe( 'remote designer site:greenhouse.io' )
+
+    const parsed = parseQuery( remoteDeignerQuery )
+
+    expect( parsed )
+        .toEqual( remoteDeigner )
 } )
 
 test( 'Can build for remote marketing jobs from the past month', () => {
-    expect( buildQuery( [
+    const febQueryParts = [
         ...remoteMarketing,
         {
             type: 'last-month',
             input: 'February, 2023',
         },
-    ] ) )
+    ]
+
+    const febQuery = buildQuery( febQueryParts )
+
+    expect( febQuery )
         .toBe( 'remote marketing site:greenhouse.io after:2023-01' )
 
-    expect( buildQuery( [
+    // Expect that parsed query is the same as the original
+    expect( parseQuery( febQuery ) )
+        .toEqual( expectMatchingTypes( febQueryParts ) )
+
+    const janQueryParts = [
         ...remoteMarketing,
         {
             type: 'last-month',
             input: 'January, 2023',
         },
-    ] ) )
+    ]
+
+    const janQuery = buildQuery( janQueryParts )
+
+    expect( janQuery )
         .toBe( 'remote marketing site:greenhouse.io after:2022-12' )
 
+    // Expect that parsed query is the similar to the original
+    expect( parseQuery( janQuery ) )
+        .toEqual( expectMatchingTypes( janQueryParts ) )
+
+    // Check that no input is truthy and doesn't throw
     expect( buildQuery( [
         ...remoteMarketing,
         {
@@ -61,35 +104,58 @@ test( 'Can build for remote marketing jobs from the past month', () => {
 } )
 
 test( 'Can all hr sites when not set', () => {
-    const queryParts = [
+    const designerQueryParts = [
         {
             type: 'text',
             input: 'remote designer',
         },
     ]
 
-    expect( buildQuery( queryParts ) )
+    const designerQuery = buildQuery( designerQueryParts )
+
+    expect( designerQuery )
         .toBe( 'remote designer ( site:greenhouse.io OR site:breezy.hr OR site:lever.co OR site:apply.workable.com OR site:bamboohr.com OR site:jobs.lever.co )' )
+
+    // Expect that parsed query is the similar to the original
+    expect( parseQuery( designerQuery ) )
+        .toEqual( expectMatchingTypes( designerQueryParts ) )
 } )
 
 test( 'Can set salary range', () => {
-    expect( buildQuery( [
+    const salaryQueryParts = [
         ...remoteMarketing,
         {
             type: 'salary',
             input: [ 100_000, 200_000 ],
         },
-    ] ) )
+    ]
+
+    const salaryQuery = buildQuery( salaryQueryParts )
+
+    expect( salaryQuery )
         .toContain( '100000..200000' )
 
-    expect( buildQuery( [
+    // Expect that parsed query is the similar to the original
+    expect( parseQuery( salaryQuery ) )
+        .toEqual( expectMatchingTypes( salaryQueryParts ) )
+
+    const minSalaryQueryParts = [
         ...remoteMarketing,
         {
             type: 'salary',
             input: [ 100_000 ],
         },
-    ] ) )
+    ]
+
+    const minSalaryQuery = buildQuery( minSalaryQueryParts )
+
+    expect( minSalaryQuery )
         .toContain( '100000..' )
+
+    // Expect that parsed query is the similar to the original
+
+    expect( parseQuery( minSalaryQuery ) )
+        .toEqual( expectMatchingTypes( minSalaryQueryParts ) )
 
     // Expect any max value over 900k to throw
     expect( () => buildQuery( [
