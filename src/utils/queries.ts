@@ -5,6 +5,15 @@ export interface QueryPart {
     input?: string
 }
 
+const hrSites = [
+    'greenhouse.io',
+    'breezy.hr',
+    'lever.co',
+    'apply.workable.com',
+    'bamboohr.com',
+    'jobs.lever.co',
+]
+
 function parseLastMonthFromString ( dateString?: string ): string {
     const inputDate = chrono.parseDate( String( dateString ) ) || new Date()
 
@@ -18,22 +27,87 @@ function parseLastMonthFromString ( dateString?: string ): string {
     return `${ year }-${ monthString }`
 }
 
-export function buildQuery ( queryParts: QueryPart[] ): string {
-    return queryParts
-        .map( ( part ) => {
-            switch ( part.type ) {
-                case 'text':
-                    return part.input
+function handleSite ( part: QueryPart ): string {
+    // Throw on non-string input
+    if ( typeof part.input !== 'string' ) {
+        throw new TypeError( `Expected string input for site query part, got ${ typeof part.input }` )
+    }
 
-                case 'site':
-                    return `site:${ part.input }`
+    // Using OR operator does work when combined with the inurl operator
+    // so for now we'll just use leave out the inurl operator
+    return `site:${ part.input }`
 
-                case 'last-month':
-                    return `after:${ parseLastMonthFromString( part?.input ) }`
+    // switch ( part.input ) {
+    //     case 'greenhouse.io':
+    //         return `site:${ part.input } inurl:jobs`
 
-                default:
-                    throw new Error( `Unknown query part type: ${ part.type }` )
+    //     case 'breezy.hr':
+    //         return `site:${ part.input } inurl:/p/`
+
+    //     case 'lever.co':
+    //         return `site:${ part.input }`
+
+    //     case 'apply.workable.com':
+    //         return `site:${ part.input }`
+
+    //     case 'bamboohr.com':
+    //         return `site:${ part.input }`
+
+    //     case 'jobs.lever.co':
+    //         return `site:${ part.input }`
+
+    //     default:
+    //         throw new Error( `Unknown query part type: ${ part.type }` )
+    // }
+}
+
+function handlePart ( part: QueryPart ): string {
+    switch ( part.type ) {
+        case 'text':
+            // Throw on falsey values
+            if ( !part.input ) {
+                throw new Error( 'Query part type \'text\' requires an input value' )
             }
-        } )
+            return part.input
+
+        case 'site':
+            return handleSite( part )
+
+        case 'last-month':
+            return `after:${ parseLastMonthFromString( part?.input ) }`
+
+        default:
+            throw new Error( `Unknown query part type: ${ part.type }` )
+    }
+}
+
+export function buildQuery ( inputQueryParts: QueryPart[] ): string {
+    const queryParts: string[] = []
+
+    for ( const part of inputQueryParts ) {
+        queryParts.push( handlePart( part ) )
+    }
+
+    // Find first site
+    const firstSiteIndex = queryParts.findIndex( ( partString ) => {
+        for ( const site of hrSites ) {
+            if ( partString.includes( site ) ) {
+                return true
+            }
+        }
+    } )
+
+    // If we don't have any hr sites, let's add all of them
+    if ( firstSiteIndex === -1 ) {
+        const sitesString = hrSites.map( ( site ) => {
+            return handleSite( { type: 'site', input: site } )
+        } ).join( ' OR ' )
+
+        queryParts
+            .push( `( ${ sitesString } )` )
+    }
+
+    return queryParts
+        .map( string => string.trim() )
         .join( ' ' )
 }

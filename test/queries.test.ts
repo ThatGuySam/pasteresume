@@ -59,3 +59,15 @@ test( 'Can build for remote marketing jobs from the past month', () => {
     ] ) )
         .toBeTruthy()
 } )
+
+test( 'Can all hr sites when not set', () => {
+    const queryParts = [
+        {
+            type: 'text',
+            input: 'remote designer',
+        },
+    ]
+
+    expect( buildQuery( queryParts ) )
+        .toBe( 'remote designer ( site:greenhouse.io OR site:breezy.hr OR site:lever.co OR site:apply.workable.com OR site:bamboohr.com OR site:jobs.lever.co )' )
+} )
