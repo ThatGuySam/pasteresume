@@ -14,17 +14,29 @@ const hrSites = [
     'jobs.lever.co',
 ]
 
-function parseLastMonthFromString ( dateString?: QueryPart['input'] ): string {
+function shiftMonth ( date: Date, months: number ): Date {
+    return new Date( date.getFullYear(), date.getMonth() + months, 1 )
+}
+
+function parseLastMonthDateFromString ( dateString?: QueryPart['input'] ): Date {
     const inputDate = chrono.parseDate( String( dateString ) ) || new Date()
 
     // Let's rewind the clocks back to last month
-    const dateOfLastMonth = new Date( inputDate.getFullYear(), inputDate.getMonth() - 1, 1 )
+    return shiftMonth( inputDate, -1 )
+}
 
-    const year = dateOfLastMonth.getFullYear()
-    const month = dateOfLastMonth.getMonth() + 1
+function formatForDateOperator ( date: Date ): string {
+    const year = date.getFullYear()
+    const month = date.getMonth() + 1
     const monthString = String( month ).padStart( 2, '0' )
 
     return `${ year }-${ monthString }`
+}
+
+function parseLastMonthFromString ( dateString?: QueryPart['input'] ): string {
+    const dateOfLastMonth = parseLastMonthDateFromString( dateString )
+
+    return formatForDateOperator( dateOfLastMonth )
 }
 
 function handleSite ( part: QueryPart ): string {
@@ -188,4 +200,51 @@ export function parseQuery ( query: string ): QueryPart[] {
     }
 
     return queryParts
+}
+
+function setOperator ( query: string, operators: {
+    [ key: string ]: string
+} ) {
+    for ( const [ key, value ] of Object.entries( operators ) ) {
+        // If the query already has the operator, replace it
+        if ( query.includes( `${ key }:` ) ) {
+            query = query.replace( new RegExp( `${ key }:.*?\\s` ), `${ key }:${ value } ` )
+            continue
+        }
+
+        // Otherwise, add it
+        query += ` ${ key }:${ value }`
+    }
+
+    return query
+}
+
+// Parse a query string into an array of variations
+export function getVariations ( query: string ): string[] {
+    // Build variations for the previous 12 months
+    const variations: string[] = []
+
+    // Get intial date in query or use last month
+    const initialDate = parseLastMonthDateFromString( query )
+
+    // Get query sans before and after operators
+    const queryWithoutDates = query
+        .split( ' ' )
+        .filter( part => !part.includes( 'before:' ) && !part.includes( 'after:' ) )
+        .join( ' ' )
+
+    let runningDate = initialDate
+
+    for ( let i = 0; i < 12; i++ ) {
+        // Add variation to variations
+        variations.push( setOperator( queryWithoutDates, {
+            before: formatForDateOperator( runningDate ),
+            after: formatForDateOperator( shiftMonth( runningDate, -1 ) ),
+        } ) )
+
+        // Shift date back one month
+        runningDate = shiftMonth( runningDate, -1 )
+    }
+
+    return variations
 }

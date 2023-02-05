@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest'
 import type { QueryPart } from '~/utils/queries'
-import { buildQuery, parseQuery } from '~/utils/queries'
+import { buildQuery, getVariations, parseQuery } from '~/utils/queries'
 
 test( 'Can test', async () => {
     expect( test ).toBeTruthy()
@@ -166,4 +166,26 @@ test( 'Can set salary range', () => {
         },
     ] ) )
         .toThrow()
+} )
+
+test( 'Can get date variations from query', () => {
+    // Build query to get variations
+    const febQuery = 'remote marketing site:greenhouse.io after:2023-01'
+
+    const variations = getVariations( febQuery )
+
+    expect( variations )
+        .toEqual( expect.arrayContaining( [
+            'remote marketing site:greenhouse.io before:2023-01 after:2022-12',
+            'remote marketing site:greenhouse.io before:2022-12 after:2022-11',
+            'remote marketing site:greenhouse.io before:2022-11 after:2022-10',
+            'remote marketing site:greenhouse.io before:2022-10 after:2022-09',
+            'remote marketing site:greenhouse.io before:2022-09 after:2022-08',
+            'remote marketing site:greenhouse.io before:2022-08 after:2022-07',
+            'remote marketing site:greenhouse.io before:2022-07 after:2022-06',
+            'remote marketing site:greenhouse.io before:2022-06 after:2022-05',
+            'remote marketing site:greenhouse.io before:2022-05 after:2022-04',
+            'remote marketing site:greenhouse.io before:2022-04 after:2022-03',
+            'remote marketing site:greenhouse.io before:2022-03 after:2022-02',
+        ] ) )
 } )
