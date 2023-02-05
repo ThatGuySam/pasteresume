@@ -7,6 +7,7 @@ import tailwind from '@astrojs/tailwind'
 // import sitemap from '@astrojs/sitemap';
 import image from '@astrojs/image'
 import mdx from '@astrojs/mdx'
+import vue from '@astrojs/vue'
 import partytown from '@astrojs/partytown'
 import compress from 'astro-compress'
 import { readingTimeRemarkPlugin } from './src/utils/frontmatter.mjs'
@@ -40,6 +41,7 @@ export default defineConfig( {
             serviceEntryPoint: '@astrojs/image/sharp',
         } ),
         mdx(),
+        vue(),
 
         ...whenExternalScripts( () =>
             partytown( {
