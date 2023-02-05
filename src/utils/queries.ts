@@ -2,7 +2,7 @@ import * as chrono from 'chrono-node'
 
 export interface QueryPart {
     type: string
-    input?: string
+    input?: string | number[]
 }
 
 const hrSites = [
@@ -14,7 +14,7 @@ const hrSites = [
     'jobs.lever.co',
 ]
 
-function parseLastMonthFromString ( dateString?: string ): string {
+function parseLastMonthFromString ( dateString?: QueryPart['input'] ): string {
     const inputDate = chrono.parseDate( String( dateString ) ) || new Date()
 
     // Let's rewind the clocks back to last month
@@ -61,12 +61,27 @@ function handleSite ( part: QueryPart ): string {
     // }
 }
 
+function handleSalary ( input: QueryPart['input'] ): string {
+    // Throw on non-array input
+    if ( !Array.isArray( input ) ) {
+        throw new TypeError( `Expected array input for salary query part, got ${ typeof input }` )
+    }
+
+    // Throw on second value being greater than 900k
+    if ( input[ 1 ] && input[ 1 ] > 900_000 ) {
+        throw new Error( 'Salary range cannot be greater than $900k since that can cause it to match against non-salary numbers' )
+    }
+
+    // Join the array with ensuring that we always have three dots
+    return `${ input[ 0 ] }..${ input[ 1 ] || '' }`
+}
+
 function handlePart ( part: QueryPart ): string {
     switch ( part.type ) {
         case 'text':
-            // Throw on falsey values
-            if ( !part.input ) {
-                throw new Error( 'Query part type \'text\' requires an input value' )
+            // Throw on non-string input
+            if ( typeof part.input !== 'string' ) {
+                throw new TypeError( `Expected string input for text query part, got ${ typeof part.input }` )
             }
             return part.input
 
@@ -75,6 +90,9 @@ function handlePart ( part: QueryPart ): string {
 
         case 'last-month':
             return `after:${ parseLastMonthFromString( part?.input ) }`
+
+        case 'salary':
+            return handleSalary( part.input )
 
         default:
             throw new Error( `Unknown query part type: ${ part.type }` )

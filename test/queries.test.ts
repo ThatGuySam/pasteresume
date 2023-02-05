@@ -5,6 +5,17 @@ test( 'Can test', async () => {
     expect( test ).toBeTruthy()
 } )
 
+const remoteMarketing = [
+    {
+        type: 'text',
+        input: 'remote marketing',
+    },
+    {
+        type: 'site',
+        input: 'greenhouse.io',
+    },
+]
+
 test( 'Can build for remote designer jobs', () => {
     const queryParts = [
         {
@@ -22,17 +33,6 @@ test( 'Can build for remote designer jobs', () => {
 } )
 
 test( 'Can build for remote marketing jobs from the past month', () => {
-    const remoteMarketing = [
-        {
-            type: 'text',
-            input: 'remote marketing',
-        },
-        {
-            type: 'site',
-            input: 'greenhouse.io',
-        },
-    ]
-
     expect( buildQuery( [
         ...remoteMarketing,
         {
@@ -70,4 +70,34 @@ test( 'Can all hr sites when not set', () => {
 
     expect( buildQuery( queryParts ) )
         .toBe( 'remote designer ( site:greenhouse.io OR site:breezy.hr OR site:lever.co OR site:apply.workable.com OR site:bamboohr.com OR site:jobs.lever.co )' )
+} )
+
+test( 'Can set salary range', () => {
+    expect( buildQuery( [
+        ...remoteMarketing,
+        {
+            type: 'salary',
+            input: [ 100_000, 200_000 ],
+        },
+    ] ) )
+        .toContain( '100000..200000' )
+
+    expect( buildQuery( [
+        ...remoteMarketing,
+        {
+            type: 'salary',
+            input: [ 100_000 ],
+        },
+    ] ) )
+        .toContain( '100000..' )
+
+    // Expect any max value over 900k to throw
+    expect( () => buildQuery( [
+        ...remoteMarketing,
+        {
+            type: 'salary',
+            input: [ 100_000, 1_000_000 ],
+        },
+    ] ) )
+        .toThrow()
 } )
