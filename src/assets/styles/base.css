@@ -19,7 +19,7 @@
     @apply bg-slate-900;
   }
 
-  
+
   .btn {
     @apply inline-flex items-center justify-center rounded-full shadow-md border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800;
   }
@@ -58,4 +58,80 @@
 
 [data-aw-toggle-menu].expanded g > path:last-child {
   @apply rotate-45 translate-y-[-8px] translate-x-[14px];
+}
+
+
+.shimmer {}
+
+/* Original - https://codepen.io/ThatGuySam/pen/zYPPYwg */
+/* Animation delay so our shimmer looks staggered */
+
+.shimmer *:nth-child(3n-2),
+*:nth-child(3n-2) > .shimmer {
+  animation-delay: 0.2s;
+}
+
+.shimmer *:nth-child(3n-1),
+*:nth-child(3n-1) > .shimmer {
+  animation-delay: 0.1s;
+}
+
+
+
+.shimmer {
+  /*  Hide all text  */
+  color: transparent;
+}
+
+.shimmer p,
+.shimmer img,
+.shimmer span,
+.shimmer time,
+.shimmer label,
+.shimmer pre,
+.shimmer h1, .shimmer h2, .shimmer h3, .shimmer h4, .shimmer h5, .shimmer h6 {
+  animation: placeHolderShimmer 1s infinite;
+  animation-timing-function: linear;
+
+  /*  Shimmer gets inserted as an animated background so it can shape to most elements  */
+
+	/* Base shimmer color */
+  background-color: rgba( 0, 0, 0, 0.1 );
+	/* First and last color should be the same so that animation restart is seamless */
+  background-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.20) 8%,
+    rgba(100, 100, 100, 0.13) 18%,
+    rgba(0, 0, 0, 0.20) 33%
+  );
+  background-size: 200% 100px;
+  background-attachment: fixed;
+
+  border: none;
+  /* Rounded corners for typography elements */
+  border-radius: 9999px;
+
+  /*  Hide all text  */
+  color: transparent;
+
+  /*  Hide img src  */
+  object-position: -99999px 99999px;
+}
+
+/* Inline Shimmers so we get separated shimmer lines on text */
+.shimmer p,
+.shimmer span,
+.shimmer time,
+.shimmer label {
+  display: inline;
+}
+
+
+@keyframes placeHolderShimmer {
+  0% {
+    background-position: 100% 0
+  }
+  100% {
+    background-position: -100% 0
+  }
 }
