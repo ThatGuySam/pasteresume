@@ -6,7 +6,7 @@ export interface QueryPart {
 }
 
 function parseLastMonthFromString ( dateString?: string ): string {
-    const inputDate = chrono.parseDate( dateString || '' )
+    const inputDate = chrono.parseDate( String( dateString ) ) || new Date()
 
     // Let's rewind the clocks back to last month
     const dateOfLastMonth = new Date( inputDate.getFullYear(), inputDate.getMonth() - 1, 1 )

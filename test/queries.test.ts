@@ -50,4 +50,12 @@ test( 'Can build for remote marketing jobs from the past month', () => {
         },
     ] ) )
         .toBe( 'remote marketing site:greenhouse.io after:2022-12' )
+
+    expect( buildQuery( [
+        ...remoteMarketing,
+        {
+            type: 'last-month',
+        },
+    ] ) )
+        .toBeTruthy()
 } )
