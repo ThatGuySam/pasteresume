@@ -1,11 +1,6 @@
-# 🚀 AstroWind
+# 👨‍💻 Paste Resume
 
-<img src="https://raw.githubusercontent.com/onwidget/.github/main/resources/astrowind/lighthouse-score.png" align="right"
-     alt="AstroWind Lighthouse Score" width="100" height="358">
 
-🌟 _Most *starred* & *forked* Astro theme in 2022_. 🌟
-
-**AstroWind** is a free and open-source template to make your website using **[Astro 2.0](https://astro.build/blog/astro-2/) + [Tailwind CSS](https://tailwindcss.com/)**. Ready to start a new project and designed taking into account web best practices.
 
 ## Features
 
@@ -18,8 +13,6 @@
 - ✅ **Analytics** built-in Google Analytics, and Splitbee integration.
 
 <br>
-
-<img src="https://raw.githubusercontent.com/onwidget/.github/main/resources/astrowind/screenshot-astro2.jpg" alt="AstroWind Theme Screenshot">
 
 [![onWidget](https://custom-icon-badges.demolab.com/badge/made%20by%20-onWidget-556bf2?style=flat-square&logo=onwidget&logoColor=white&labelColor=101827)](https://onwidget.com)
 [![License](https://img.shields.io/github/license/onwidget/astrowind?style=flat-square&color=dddddd&labelColor=000000)](https://github.com/onwidget/astrowind/blob/main/LICENSE.md)
@@ -52,19 +45,19 @@
 
 ## Demo
 
-📌 [https://astrowind.vercel.app/](https://astrowind.vercel.app/)
+📌 [https://pasteresume.com/](https://pasteresume.com/)
 
 <br>
 
 ## Getting started
 
-**AstroWind** tries to give you quick access to creating a website using [Astro 2.0](https://astro.build/blog/astro-2/) + [Tailwind CSS](https://tailwindcss.com/). It's a free theme focuses on simplicity, good practices and high performance.
+**Paste Resume** tries to give you quick access to creating a website using [Astro 2.0](https://astro.build/blog/astro-2/) + [Tailwind CSS](https://tailwindcss.com/). It's a free theme focuses on simplicity, good practices and high performance.
 
 Very little vanilla javascript is used only to provide basic functionality so that each developer decides which framework (React, Vue, Svelte, Solid JS...) to use and how to approach their goals..
 
 ### Project structure
 
-Inside AstroWind template, you'll see the following folders and files:
+Inside Paste Resume template, you'll see the following folders and files:
 
 ```
 /
@@ -117,7 +110,7 @@ There's nothing special about `src/components/`, but that's where we like to put
 
 Any static assets, like images, can be placed in the `public/` directory if they do not require any transformation or in the `assets/` directory if they are imported directly.
 
-[![Edit AstroWind on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://githubbox.com/onwidget/astrowind/tree/main)
+[![Edit Paste Resume on CodeSandbox](https://codesandbox.io/static/img/play-codesandbox.svg)](https://githubbox.com/onwidget/astrowind/tree/main)
 
 > 🧑‍🚀 **Seasoned astronaut?** Delete this file. Update `config.mjs` and contents. Have fun!
 
@@ -255,4 +248,4 @@ Initially created by [onWidget](https://onwidget.com) and maintained by a commun
 
 ## License
 
-**AstroWind** is licensed under the MIT license — see the [LICENSE](./LICENSE.md) file for details.
+**Paste Resume** is licensed under the MIT license — see the [LICENSE](./LICENSE.md) file for details.
