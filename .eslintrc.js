@@ -28,7 +28,7 @@ module.exports = {
         '@antfu',
     ],
     parserOptions: {
-        ecmaVersion: 'latest',
+        ecmaVersion: 'esnext',
         sourceType: 'module',
     },
     rules: {
