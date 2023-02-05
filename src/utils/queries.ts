@@ -131,36 +131,47 @@ export function buildQuery ( inputQueryParts: QueryPart[] ): string {
         .join( ' ' )
 }
 
-function parseQueryPart ( part: string ): QueryPart {
-    if ( part.startsWith( 'site:' ) ) {
-        const site = part.replace( 'site:', '' )
-
-        return {
-            type: 'site',
-            input: site,
-        }
+function parseAfter ( part: string ): QueryPart {
+    return {
+        type: 'last-month',
+        input: part,
     }
-    else if ( part.startsWith( 'after:' ) ) {
-        const date = part.replace( 'after:', '' )
+}
 
-        return {
-            type: 'last-month',
-            input: date,
-        }
+function parseQueryPart ( part: string ): QueryPart | undefined {
+    // Retunr undefined for parentheses
+    if ( part === '(' || part === ')' ) {
+        return undefined
     }
-    else if ( part.includes( '..' ) ) {
-        const [ min, max ] = part.split( '..' ).map( str => parseInt( str, 10 ) )
 
+    // If there's 2 periods, it's a salary query part
+    if ( part.includes( '..' ) ) {
         return {
             type: 'salary',
-            input: [ min, max ],
+            input: part.split( '..' ).map( number => Number( number ) ),
         }
     }
-    else {
+
+    // If there's no colon, it's a text query part
+    if ( !part.includes( ':' ) ) {
         return {
             type: 'text',
             input: part,
         }
+    }
+
+    // Split the part into type and input
+    const [ type, input ] = part.split( ':' )
+
+    switch ( type ) {
+        case 'after':
+            return parseAfter( input )
+
+        case 'site':
+            return { type, input }
+
+        default:
+            throw new Error( `Unknown query part: ${ part }` )
     }
 }
 
@@ -170,7 +181,11 @@ export function parseQuery ( query: string ): QueryPart[] {
     const parts = query.split( ' ' )
 
     for ( const part of parts ) {
-        queryParts.push( parseQueryPart( part ) )
+        const parsedPart = parseQueryPart( part )
+
+        if ( parsedPart ) {
+            queryParts.push( parsedPart )
+        }
     }
 
     return queryParts
