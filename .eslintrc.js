@@ -32,7 +32,7 @@ module.exports = {
         sourceType: 'module',
     },
     rules: {
-        // Indent with 4 spaces
+    // Indent with 4 spaces
         'indent': [ 'error', 4, {
             SwitchCase: 1,
         } ],
@@ -60,17 +60,17 @@ module.exports = {
                 'no-mixed-spaces-and-tabs': [ 'error', 'smart-tabs' ],
             },
         },
-        {
-            files: [ '*.astro' ],
-            parser: 'astro-eslint-parser',
-            parserOptions: {
-                parser: '@typescript-eslint/parser',
-                extraFileExtensions: [ '.astro' ],
-            },
-            rules: {
-                'no-mixed-spaces-and-tabs': [ 'error', 'smart-tabs' ],
-            },
-        },
+        // {
+        //     files: [ '*.astro' ],
+        //     parser: 'astro-eslint-parser',
+        //     parserOptions: {
+        //         parser: '@typescript-eslint/parser',
+        //         extraFileExtensions: [ '.astro' ],
+        //     },
+        //     rules: {
+        //         'no-mixed-spaces-and-tabs': [ 'error', 'smart-tabs' ],
+        //     },
+        // },
         {
             files: [ '*.ts' ],
             parser: '@typescript-eslint/parser',
