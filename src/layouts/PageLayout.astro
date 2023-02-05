@@ -1,7 +1,6 @@
 ---
 import Layout from '~/layouts/BaseLayout.astro'
 import Header from '~/components/widgets/Header.astro'
-import Announcement from '~/components/widgets/Announcement.astro'
 
 import { headerData } from '~/data'
 
@@ -15,9 +14,9 @@ const { meta } = Astro.props;
 ---
 
 <Layout {meta}>
-  <slot name="announcement">
+  <!-- <slot name="announcement">
     <Announcement />
-  </slot>
+  </slot> -->
   <slot name="header">
     <Header
         {...headerData}
