@@ -1,40 +1,42 @@
 ---
-import { SITE, BLOG } from '~/config.mjs';
+import { BLOG, SITE } from '~/config.mjs'
 
-import Layout from '~/layouts/PageLayout.astro';
-import BlogList from '~/components/blog/List.astro';
-import Headline from '~/components/blog/Headline.astro';
-import Pagination from '~/components/blog/Pagination.astro';
+import Layout from '~/layouts/PageLayout.astro'
+import BlogList from '~/components/blog/List.astro'
+import Headline from '~/components/blog/Headline.astro'
+import Pagination from '~/components/blog/Pagination.astro'
 
-import { fetchPosts } from '~/utils/blog';
-import { CATEGORY_BASE } from '~/utils/permalinks';
+import { fetchPosts } from '~/utils/blog'
+import { CATEGORY_BASE } from '~/utils/permalinks'
 
-export async function getStaticPaths({ paginate }) {
-  if (BLOG?.disabled || BLOG?.category?.disabled) return [];
+export async function getStaticPaths ( { paginate } ) {
+  if ( BLOG?.disabled || BLOG?.category?.disabled ) {
+    return []
+  }
 
-  const posts = await fetchPosts();
-  const categories = new Set();
-  posts.map((post) => {
-    typeof post.category === 'string' && categories.add(post.category.toLowerCase());
-  });
+  const posts = await fetchPosts()
+  const categories = new Set()
+  posts.forEach( ( post ) => {
+    typeof post.category === 'string' && categories.add( post.category.toLowerCase() )
+  } )
 
-  return Array.from(categories).map((category: string) =>
+  return Array.from( categories ).map( ( category: string ) =>
     paginate(
-      posts.filter((post) => typeof post.category === 'string' && category === post.category.toLowerCase()),
+      posts.filter( post => typeof post.category === 'string' && category === post.category.toLowerCase() ),
       {
-        params: { category: category, blog: CATEGORY_BASE || undefined },
+        params: { category, blog: CATEGORY_BASE || undefined },
         pageSize: BLOG.postsPerPage,
         props: { category },
-      }
-    )
-  );
+      },
+    ),
+  )
 }
 
-const { page, category } = Astro.props;
+const { page, category } = Astro.props
 
-const currentPage = page.currentPage ?? 1;
+const currentPage = page.currentPage ?? 1
 const meta = {
-  title: `Category'${category}' ${currentPage > 1 ? ` — Page ${currentPage}` : ''}`,
+  title: `Category'${ category }' ${ currentPage > 1 ? ` — Page ${ currentPage }` : '' }`,
   description: SITE.description,
   noindex: BLOG?.category?.noindex,
 };
@@ -42,7 +44,7 @@ const meta = {
 
 <Layout meta={meta}>
   <section class="px-6 sm:px-6 py-12 sm:py-16 lg:py-20 mx-auto max-w-3xl">
-    <Headline><span class="capitalize">{category.replaceAll('-', ' ')}</span></Headline>
+    <Headline><span class="capitalize">{category.replaceAll( '-', ' ' )}</span></Headline>
     <BlogList posts={page.data} />
     <Pagination prevUrl={page.url.prev} nextUrl={page.url.next} />
   </section>

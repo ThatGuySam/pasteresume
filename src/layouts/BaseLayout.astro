@@ -1,17 +1,17 @@
 ---
-import '~/assets/styles/base.css';
+import '~/assets/styles/base.css'
 
-import MetaTags from '~/components/common/MetaTags.astro';
-import BasicScripts from '~/components/common/BasicScripts.astro';
+import MetaTags from '~/components/common/MetaTags.astro'
+import BasicScripts from '~/components/common/BasicScripts.astro'
 
-import { MetaSEO } from '~/types';
-import { SITE } from '~/config.mjs';
+import type { MetaSEO } from '~/types'
+import { SITE } from '~/config.mjs'
 
 export interface Props {
-  meta?: MetaSEO;
+  meta?: MetaSEO
 }
 
-const { meta = {} } = Astro.props;
+const { meta = {} } = Astro.props
 const { language = 'en', textDirection = 'ltr' } = SITE;
 ---
 

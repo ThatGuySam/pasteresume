@@ -1,21 +1,21 @@
 ---
-import { Icon } from 'astro-icon';
+import { Icon } from 'astro-icon'
 
 interface Item {
-  question: string;
-  answer: string;
+  question: string
+  answer: string
 }
 
 export interface Props {
-  title?: string;
-  subtitle?: string;
-  highlight?: string;
-  items: Array<Array<Item>>;
+  title?: string
+  subtitle?: string
+  highlight?: string
+  items: Array<Array<Item>>
 }
 
 const {
-  title = await Astro.slots.render('title'),
-  subtitle = await Astro.slots.render('subtitle'),
+  title = await Astro.slots.render( 'title' ),
+  subtitle = await Astro.slots.render( 'subtitle' ),
   highlight,
   items = [],
 } = Astro.props;
@@ -24,7 +24,7 @@ const {
 <div class="px-4 py-16 mx-auto max-w-6xl lg:py-20">
   <div class="max-w-xl sm:mx-auto lg:max-w-2xl">
     {
-      (title || subtitle || highlight) && (
+      ( title || subtitle || highlight ) && (
         <div class="max-w-xl mb-10 md:mx-auto md:text-center lg:max-w-2xl md:mb-12">
           {highlight && (
             <p
@@ -46,10 +46,10 @@ const {
   <div class="max-w-7xl sm:mx-auto">
     <div class="grid grid-cols-1 gap-x-8 gap-y-8 lg:gap-x-16 md:grid-cols-2">
       {
-        items &&
-          items.map((subitems) => (
+        items
+          && items.map( subitems => (
             <div class="space-y-8">
-              {subitems.map(({ question, answer }) => (
+              {subitems.map( ( { question, answer } ) => (
                 <div>
                   <h3 class="mb-4 text-xl font-bold">
                     <Icon name="tabler:arrow-down-right" class="w-7 h-7 text-primary inline-block" />
@@ -57,9 +57,9 @@ const {
                   </h3>
                   {answer && <div class="text-muted dark:text-gray-400" set:html={answer} />}
                 </div>
-              ))}
+              ) )}
             </div>
-          ))
+          ) )
       }
     </div>
   </div>

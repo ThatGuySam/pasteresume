@@ -1,22 +1,22 @@
 ---
-import { Icon } from 'astro-icon';
+import { Icon } from 'astro-icon'
 
 interface Item {
-  title: string;
-  description: string;
-  icon?: string;
+  title: string
+  description: string
+  icon?: string
 }
 
 export interface Props {
-  title?: string;
-  subtitle?: string;
-  highlight?: string;
-  items: Array<Array<Item>>;
+  title?: string
+  subtitle?: string
+  highlight?: string
+  items: Array<Array<Item>>
 }
 
 const {
-  title = await Astro.slots.render('title'),
-  subtitle = await Astro.slots.render('subtitle'),
+  title = await Astro.slots.render( 'title' ),
+  subtitle = await Astro.slots.render( 'subtitle' ),
   highlight,
   items = [],
 } = Astro.props;
@@ -25,7 +25,7 @@ const {
 <section class="scroll-mt-16" id="features">
   <div class="px-4 py-16 mx-auto max-w-6xl lg:px-8 lg:py-20">
     {
-      (title || subtitle || highlight) && (
+      ( title || subtitle || highlight ) && (
         <div class="mb-10 md:mx-auto text-center md:mb-12 max-w-3xl">
           {highlight && (
             <p
@@ -48,9 +48,9 @@ const {
     }
     <div class="grid mx-auto space-y-6 md:grid-cols-2 md:space-y-0">
       {
-        items.map((subitems) => (
+        items.map( subitems => (
           <div class="space-y-8 sm:px-8">
-            {subitems.map(({ title, description, icon }) => (
+            {subitems.map( ( { title, description, icon } ) => (
               <div class="flex flex-row max-w-md">
                 <div class="mb-4 mr-4">
                   <div class="flex items-center justify-center w-12 h-12 rounded-full bg-primary dark:bg-blue-700">
@@ -62,9 +62,9 @@ const {
                   <p class="text-muted dark:text-slate-400" set:html={description} />
                 </div>
               </div>
-            ))}
+            ) )}
           </div>
-        ))
+        ) )
       }
     </div>
   </div>

@@ -1,19 +1,19 @@
 ---
 interface Item {
-  name: string;
-  value: string;
+  name: string
+  value: string
 }
 
 export interface Props {
-  title?: string;
-  subtitle?: string;
-  highlight?: string;
-  items?: Array<Item>;
+  title?: string
+  subtitle?: string
+  highlight?: string
+  items?: Array<Item>
 }
 
 const {
-  title = await Astro.slots.render('title'),
-  subtitle = await Astro.slots.render('subtitle'),
+  title = await Astro.slots.render( 'title' ),
+  subtitle = await Astro.slots.render( 'subtitle' ),
   highlight,
   items = [],
 } = Astro.props;
@@ -21,7 +21,7 @@ const {
 
 <div class="px-4 py-4 md:py-16 sm:px-6 mx-auto md:px-24 lg:px-8 lg:py-20 max-w-6xl">
   {
-    (title || subtitle || highlight) && (
+    ( title || subtitle || highlight ) && (
       <div class="max-w-xl mb-10 md:mx-auto sm:text-center lg:max-w-2xl md:mb-12">
         {highlight && (
           <p class="text-base text-primary dark:text-blue-200 font-semibold tracking-wide uppercase">
@@ -42,7 +42,7 @@ const {
   }
   <div class="grid grid-cols-2 row-gap-8 md:grid-cols-4">
     {
-      items.map(({ name, value }) => (
+      items.map( ( { name, value } ) => (
         <div class="text-center md:border-r md:last:border-none dark:md:border-slate-500 mb-12 md:mb-0">
           <div class="text-[2.6rem] font-bold lg:text-5xl xl:text-6xl text-primary dark:text-blue-600 font-heading">
             {value}
@@ -51,7 +51,7 @@ const {
             {name}
           </p>
         </div>
-      ))
+      ) )
     }
   </div>
 </div>

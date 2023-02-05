@@ -1,13 +1,13 @@
 ---
-import Layout from '~/layouts/PageLayout.astro';
+import Layout from '~/layouts/PageLayout.astro'
 
-import Header from '~/components/widgets/Header.astro';
-import Hero2 from '~/components/widgets/Hero2.astro';
-import Steps2 from '~/components/widgets/Steps2.astro';
-import Content from '~/components/widgets/Content.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
+import Header from '~/components/widgets/Header.astro'
+import Hero2 from '~/components/widgets/Hero2.astro'
+import Steps2 from '~/components/widgets/Steps2.astro'
+import Content from '~/components/widgets/Content.astro'
+import CallToAction from '~/components/widgets/CallToAction.astro'
 
-import { headerData } from '~/data';
+import { headerData } from '~/data'
 
 const meta = {
   title: 'Saas Landing Page',
@@ -20,12 +20,12 @@ const meta = {
       {...headerData}
       actions={[
         {
-          type: "ghost",
+          type: 'ghost',
           text: 'Login',
           href: '#',
         },
         {
-          type: "primary",
+          type: 'primary',
           text: 'Sign Up',
           href: '#',
         },
@@ -39,7 +39,7 @@ const meta = {
   <Hero2
     callToAction={{ text: 'Get template', href: 'https://github.com/onwidget/astrowind', icon: 'tabler:download' }}
     callToAction2={{ text: 'Learn more', href: '#features' }}
-    image={{ src: import('~/assets/images/hero.png'), alt: 'Paste Resume Hero Image' }}
+    image={{ src: import( '~/assets/images/hero.png' ), alt: 'Paste Resume Hero Image' }}
   >
     <Fragment slot="title">
       Free template for <br />
@@ -78,7 +78,7 @@ const meta = {
       },
     ]}
     image={{
-      src: import('~/assets/images/caos.jpg'),
+      src: import( '~/assets/images/caos.jpg' ),
       alt: 'Colorful Image',
     }}
   >
@@ -110,7 +110,7 @@ const meta = {
       },
     ]}
     image={{
-      src: import('~/assets/images/caos.jpg'),
+      src: import( '~/assets/images/caos.jpg' ),
       alt: 'Colorful Image',
     }}
   >
@@ -143,7 +143,7 @@ const meta = {
       },
     ]}
     image={{
-      src: import('~/assets/images/caos.jpg'),
+      src: import( '~/assets/images/caos.jpg' ),
       alt: 'Colorful Image',
     }}
   >

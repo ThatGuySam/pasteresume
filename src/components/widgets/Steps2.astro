@@ -1,66 +1,33 @@
 ---
-import { Icon } from 'astro-icon';
+import { Icon } from 'astro-icon'
 
 interface Item {
-  title: string;
-  description: string;
-  icon?: string;
+  title: string
+  description: string
+  icon?: string
 }
 
 interface CallToAction {
-  text: string;
-  href: string;
-  icon?: string;
+  text: string
+  href: string
+  icon?: string
 }
 
 export interface Props {
-  title?: string;
-  subtitle?: string;
-  highlight?: string;
-  callToAction?: string | CallToAction;
-  items: Array<Item>;
+  title?: string
+  subtitle?: string
+  highlight?: string
+  callToAction?: string | CallToAction
+  items: Array<Item>
 }
 
 const {
-  title = await Astro.slots.render('title'),
-  subtitle = await Astro.slots.render('subtitle'),
+  title = await Astro.slots.render( 'title' ),
+  subtitle = await Astro.slots.render( 'subtitle' ),
   highlight,
-  callToAction = await Astro.slots.render('callToAction'),
+  callToAction = await Astro.slots.render( 'callToAction' ),
   items = [],
 } = Astro.props;
-
-/**
- * 
-	
-<!-- Steps2 Widget Example ***************** -->
-
-<Steps2
-	title="Sed ac magna sit amet risus tristique interdum, at vel velit in hac habitasse platea dictumst."
-	subtitle="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla, sed porttitor est nibh at nulla. Praesent placerat enim ut ex tincidunt vehicula. Fusce sit amet dui tellus."
-	callToAction={{
-		text: 'Get template',
-		href: 'https://github.com/onwidget/astrowind',
-		icon: 'tabler:download',
-	}}
-	items={[
-		{
-			title: 'Responsive Elements',
-			description:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla.',
-		},
-		{
-			title: 'Flexible Team',
-			description:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla.',
-		},
-		{
-			title: 'Ecologic Software',
-			description:
-				'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi sagittis, quam nec venenatis lobortis, mi risus tempus nulla.',
-		},
-	]}
-/>
- */
 ---
 
 <section>
@@ -83,18 +50,20 @@ const {
 
               <div class="w-full">
                 {
-                  typeof callToAction === 'string' ? (
+                  typeof callToAction === 'string'
+                    ? (
                     <Fragment set:html={callToAction} />
-                  ) : (
-                    callToAction &&
-                    callToAction.text &&
-                    callToAction.href && (
+                      )
+                    : (
+                        callToAction
+                    && callToAction.text
+                    && callToAction.href && (
                       <a class="btn btn-primary mb-4 sm:mb-0" href={callToAction.href} target="_blank" rel="noopener">
                         {callToAction.icon && <Icon name={callToAction.icon} class="w-5 h-5 mr-1 -ml-1.5" />}
                         {callToAction.text}
                       </a>
-                    )
-                  )
+                        )
+                      )
                 }
               </div>
             </div>
@@ -102,8 +71,8 @@ const {
           <div class="w-full lg:w-1/2 px-0 sm:px-8">
             <ul class="space-y-10">
               {
-                items && items.length
-                  ? items.map(({ title: title2, description, icon }, index) => (
+                ( items && items.length )
+                  ? items.map( ( { title: title2, description, icon }, index ) => (
                       <li class="flex md:-mx-4">
                         <div class="pr-4 sm:pl-4">
                           <span class="flex w-16 h-16 mx-auto items-center justify-center text-2xl font-bold rounded-full bg-blue-100 text-primary">
@@ -115,7 +84,7 @@ const {
                           <p class="text-muted dark:text-gray-400" set:html={description} />
                         </div>
                       </li>
-                    ))
+                  ) )
                   : ''
               }
             </ul>

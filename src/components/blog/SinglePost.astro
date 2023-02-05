@@ -1,18 +1,18 @@
 ---
-import { Icon } from 'astro-icon';
-import { Picture } from '@astrojs/image/components';
+import { Icon } from 'astro-icon'
+import { Picture } from '@astrojs/image/components'
 
-import PostTags from '~/components/blog/Tags.astro';
-import SocialShare from '~/components/common/SocialShare.astro';
+import PostTags from '~/components/blog/Tags.astro'
+import SocialShare from '~/components/common/SocialShare.astro'
 
-import { getPermalink } from '~/utils/permalinks';
-import { getFormattedDate } from '~/utils/utils';
+import { getPermalink } from '~/utils/permalinks'
+import { getFormattedDate } from '~/utils/utils'
 
-import type { Post } from '~/types';
+import type { Post } from '~/types'
 
 export interface Props {
-  post: Post;
-  url: string | URL;
+  post: Post
+  url: string | URL
 }
 
 const { post, url } = Astro.props;
@@ -24,14 +24,14 @@ const { post, url } = Astro.props;
       <div class="flex justify-between flex-col sm:flex-row max-w-3xl mx-auto mt-0 mb-2 px-4 sm:px-6 sm:items-center">
         <p>
           <Icon name="tabler:clock" class="w-4 h-4 inline-block -mt-0.5 dark:text-gray-400" />
-          <time datetime={String(post.publishDate)}>{getFormattedDate(post.publishDate)}</time>
+          <time datetime={String( post.publishDate )}>{getFormattedDate( post.publishDate )}</time>
           {
             post.category && (
               <>
                 {' '}
                 ·{' '}
-                <a class="capitalize hover:underline" href={getPermalink(post.category, 'category')}>
-                  {post.category.replaceAll('-', ' ')}
+                <a class="capitalize hover:underline" href={getPermalink( post.category, 'category' )}>
+                  {post.category.replaceAll( '-', ' ' )}
                 </a>
               </>
             )
@@ -51,11 +51,12 @@ const { post, url } = Astro.props;
       </p>
 
       {
-        post.image ? (
+        post.image
+          ? (
           <Picture
             src={post.image}
             class="max-w-full lg:max-w-6xl mx-auto mb-6 sm:rounded-md bg-gray-400 dark:bg-slate-700"
-            widths={[400, 900]}
+            widths={[ 400, 900 ]}
             sizes="(max-width: 900px) 400px, 900px"
             alt={post.description || ''}
             loading="eager"
@@ -66,11 +67,12 @@ const { post, url } = Astro.props;
             decoding="async"
             background={undefined}
           />
-        ) : (
+            )
+          : (
           <div class="max-w-3xl mx-auto px-4 sm:px-6">
             <div class="border-t dark:border-slate-700" />
           </div>
-        )
+            )
       }
     </header>
     <div
@@ -79,7 +81,7 @@ const { post, url } = Astro.props;
       {
         post.Content ? (
           <>
-            {/* @ts-ignore */}
+            {/* @ts-expect-error */}
             <post.Content />
           </>
         ) : (

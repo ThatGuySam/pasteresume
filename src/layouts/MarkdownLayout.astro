@@ -1,11 +1,11 @@
 ---
-import Layout from '~/layouts/PageLayout.astro';
+import Layout from '~/layouts/PageLayout.astro'
 
-import { MetaSEO } from '~/types';
+import type { MetaSEO } from '~/types'
 
 export interface Props {}
 
-const { frontmatter } = Astro.props;
+const { frontmatter } = Astro.props
 
 const meta: MetaSEO = {
   title: frontmatter?.title,
