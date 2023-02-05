@@ -60,17 +60,19 @@ module.exports = {
                 'no-mixed-spaces-and-tabs': [ 'error', 'smart-tabs' ],
             },
         },
-        // {
-        //     files: [ '*.astro' ],
-        //     parser: 'astro-eslint-parser',
-        //     parserOptions: {
-        //         parser: '@typescript-eslint/parser',
-        //         extraFileExtensions: [ '.astro' ],
-        //     },
-        //     rules: {
-        //         'no-mixed-spaces-and-tabs': [ 'error', 'smart-tabs' ],
-        //     },
-        // },
+        {
+            files: [ '*.astro' ],
+            parser: 'astro-eslint-parser',
+            parserOptions: {
+                parser: '@typescript-eslint/parser',
+                extraFileExtensions: [ '.astro' ],
+            },
+            rules: {
+                'no-mixed-spaces-and-tabs': [ 'error', 'smart-tabs' ],
+                'indent': 'off',
+                '@typescript-eslint/indent': 'off',
+            },
+        },
         {
             files: [ '*.ts' ],
             parser: '@typescript-eslint/parser',
