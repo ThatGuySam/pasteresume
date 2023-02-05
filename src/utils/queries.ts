@@ -1,5 +1,4 @@
 import * as chrono from 'chrono-node'
-import type { QueryPart } from './queries'
 
 export interface QueryPart {
     type: string
