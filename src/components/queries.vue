@@ -10,7 +10,7 @@
                 <div v-if="!hasAnyStoredQueries || showForm">
                     <form
                         class="isolate -space-y-px rounded-md shadow-sm"
-                        @submit.prevent="showForm = false"
+                        @submit.prevent="handleSubmit"
                     >
                         <div class="relative rounded-md rounded-b-none border border-gray-300 px-3 py-2 focus-within:z-10 focus-within:border-indigo-600 focus-within:ring-1 focus-within:ring-indigo-600">
                             <label for="name" class="block text-xs font-medium opacity-75">Terms</label>
@@ -115,6 +115,14 @@
 </template>
 
 <script lang="ts">
+import type {
+    QueryPart,
+} from '~/utils/queries'
+import {
+    buildQuery,
+} from '~/utils/queries'
+import { getQueries, storeQuery } from '~/utils/storage'
+
 const people = [
     {
         name: 'Lindsay Walton',
@@ -138,7 +146,7 @@ export default {
         return {
             loaded: false,
             showForm: false,
-            targetQuery: '',
+            storedQueries: [] as QueryPart[],
             options: {
                 terms: '',
                 salary: {
@@ -168,17 +176,50 @@ export default {
         }
     },
     computed: {
+        query () {
+            const queryParts: QueryPart[] = []
+
+            if ( this.hasTerms ) {
+                queryParts.push( {
+                    type: 'text',
+                    input: this.options.terms,
+                } )
+            }
+
+            // Add salary range
+            queryParts.push( {
+                type: 'salary',
+                input: [ this.options.salary.min, this.options.salary.max ],
+            } )
+
+            return buildQuery( queryParts )
+        },
+
         hasAnyStoredQueries () {
-            return false
+            return this.storedQueries.length > 0
         },
         hasTerms () {
             return this.options.terms.trim().length > 0
         },
     },
     mounted () {
-        setTimeout( () => {
-            this.loaded = true
-        }, 2000 )
+        getQueries()
+            .then( ( queries ) => {
+                this.storedQueries = queries
+
+                if ( queries.length ) {
+                    this.options.terms = queries[ 0 ]
+                }
+
+                this.loaded = true
+            } )
+
+        // Start watching for changes
+        // When we trigger a store this will be called
+        // so that we sync our local component state
+        // watchQueries( ( queries ) => {
+        //     console.log( 'watcher', { queries } )
+        // } )
     },
     methods: {
         perkInTerms ( perk ) {
@@ -191,6 +232,20 @@ export default {
             }
 
             this.options.terms += ` ${ perk }`
+        },
+        async storeQuery () {
+            const storedQuery = await storeQuery( {
+                text: this.query,
+            } )
+
+            this.storedQueries.push( storedQuery )
+        },
+        async handleSubmit () {
+            this.storeQuery( {
+                text: this.query,
+            } )
+
+            this.showForm = false
         },
     },
 }

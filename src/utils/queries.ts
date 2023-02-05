@@ -186,6 +186,36 @@ function parseQueryPart ( part: string ): QueryPart | undefined {
     }
 }
 
+// Since we derrived UUIDs from this sort order
+// we treat it as immutable and don't change it
+// so that we don't wipe out all the existing UUIDs references
+//
+// Sort by type then input
+function querySortAlpha ( a: QueryPart, b: QueryPart ) {
+    // Text parts always come first
+    if ( a.type === 'text' && b.type !== 'text' ) {
+        return -1
+    }
+
+    // Then salary parts
+    if ( a.type === 'salary' && b.type !== 'salary' ) {
+        return -1
+    }
+
+    // Then operators that contain colons go last
+    if ( a.type.includes( ':' ) && b.type.includes( ':' ) ) {
+        // Throw on non-string inputs
+        if ( typeof a.input !== 'string' || typeof b.input !== 'string' ) {
+            throw new TypeError( `Expected string input for text query part, got ${ typeof a.input } and ${ typeof b.input }` )
+        }
+
+        // Sorted by input alphabetically
+        return a.input.localeCompare( b.input )
+    }
+
+    return 0
+}
+
 export function parseQuery ( query: string ): QueryPart[] {
     const queryParts: QueryPart[] = []
 
@@ -200,6 +230,7 @@ export function parseQuery ( query: string ): QueryPart[] {
     }
 
     return queryParts
+        .sort( querySortAlpha )
 }
 
 function setOperator ( query: string, operators: {
