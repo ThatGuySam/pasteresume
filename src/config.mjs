@@ -7,9 +7,9 @@ const CONFIG = {
     basePathname: '/',
     trailingSlash: false,
 
-    title: 'Paste Resume — Free template for create a website with Astro + Tailwind CSS',
+    title: 'Paste Resume — Get jobs to come to you',
     description:
-    '🚀 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs.',
+    '🚀 Search and apply to jobs in bulk by searching company HR Site postings directly. ',
     defaultImage,
 
     defaultTheme: 'system', // Values: "system" | "light" | "dark" | "light:only" | "dark:only"
@@ -25,7 +25,7 @@ const CONFIG = {
     } ),
 
     googleAnalyticsId: false, // or "G-XXXXXXXXXX",
-    googleSiteVerificationId: 'orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M',
+    googleSiteVerificationId: false,
 
     blog: {
         disabled: false,
