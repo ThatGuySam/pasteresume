@@ -54,6 +54,7 @@
     "@tailwindcss/forms": "^0.5.3",
     "chrono-node": "^2.5.0",
     "unstorage": "^1.0.1",
+    "uuid": "^9.0.0",
     "vite-tsconfig-paths": "^4.0.5",
     "vue": "^3.2.30"
   }
