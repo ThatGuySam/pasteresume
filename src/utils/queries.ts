@@ -279,3 +279,11 @@ export function getVariations ( query: string ): string[] {
 
     return variations
 }
+
+export function makeGoogleSearchUrl ( query: string ) {
+    const urlString = `https://www.google.com/search?q=${ encodeURIComponent( query ) }`
+        // Convert %20 to + to match Google's query format
+        .replace( /%20/g, '+' )
+
+    return new URL( urlString )
+}

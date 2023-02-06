@@ -1,6 +1,11 @@
 import { expect, test } from 'vitest'
 import type { QueryPart } from '~/utils/queries'
-import { buildQuery, getVariations, parseQuery } from '~/utils/queries'
+import {
+    buildQuery,
+    getVariations,
+    makeGoogleSearchUrl,
+    parseQuery,
+} from '~/utils/queries'
 
 test( 'Can test', async () => {
     expect( test ).toBeTruthy()
@@ -188,4 +193,17 @@ test( 'Can get date variations from query', () => {
             'remote marketing site:greenhouse.io before:2022-04 after:2022-03',
             'remote marketing site:greenhouse.io before:2022-03 after:2022-02',
         ] ) )
+} )
+
+test( 'Can make Google Search URL from query text', () => {
+    const query = 'Marketing Remote Health Insurance 70000..250000 ( site:greenhouse.io OR site:breezy.hr OR site:lever.co OR site:apply.workable.com OR site:bamboohr.com OR site:jobs.lever.co ) before:2023-01 after:2022-12'
+    const expectedUrl = new URL( 'https://www.google.com/search?q=Marketing+Remote+Health+Insurance+70000..250000+(+site%3Agreenhouse.io+OR+site%3Abreezy.hr+OR+site%3Alever.co+OR+site%3Aapply.workable.com+OR+site%3Abamboohr.com+OR+site%3Ajobs.lever.co+)+before%3A2023-01+after%3A2022-12' )
+
+    // Expect search string to match
+    expect( makeGoogleSearchUrl( query ).search )
+        .toEqual( expectedUrl.search )
+
+    // Expect href to match
+    expect( makeGoogleSearchUrl( query ).href )
+        .toEqual( expectedUrl.href )
 } )
