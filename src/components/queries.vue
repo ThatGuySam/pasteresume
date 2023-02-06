@@ -5,7 +5,6 @@
                 !loaded && 'shimmer',
             ]"
         >
-            <h1>Queries</h1>
             <div v-if="loaded">
                 <div v-if="!hasAnyStoredQueries || showForm">
                     <form
@@ -86,35 +85,45 @@
                         </button>
                     </form>
                 </div>
-                <ul
-                    v-else
-                    role="list" class="divide-y divide-gray-200"
-                >
-                    <li
-                        v-for="variation in queryVariations"
-                        :key="variation.query"
-                        class="py-4"
+
+                <div v-else>
+                    <h1>Queries</h1>
+                    <button
+                        type="button"
+                        class="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                        @click="showForm = true"
                     >
-                        <a
-                            :href="makeGoogleSearchUrl(variation.query).href"
-                            target="_blank"
-                            class="block hover:bg-gray-50"
+                        New Terms
+                    </button>
+                    <ul
+                        role="list" class="divide-y divide-gray-200"
+                    >
+                        <li
+                            v-for="variation in queryVariations"
+                            :key="variation.query"
+                            class="py-4"
                         >
-                            <div class="flex space-x-3">
-                                <div class="flex-1 space-y-1">
-                                    <div class="flex flex-col items-center justify-between">
-                                        <h3 class="text-sm font-medium">
-                                            {{ variation.label }}
-                                        </h3>
-                                        <p class="text-sm text-gray-500">
-                                            {{ variation.query }}
-                                        </p>
+                            <a
+                                :href="makeGoogleSearchUrl(variation.query).href"
+                                target="_blank"
+                                class="block hover:bg-gray-50"
+                            >
+                                <div class="flex space-x-3">
+                                    <div class="flex-1 space-y-1">
+                                        <div class="flex flex-col items-center justify-between">
+                                            <h3 class="text-sm font-medium">
+                                                {{ variation.label }}
+                                            </h3>
+                                            <p class="text-sm text-gray-500">
+                                                {{ variation.query }}
+                                            </p>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>
