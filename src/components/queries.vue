@@ -92,18 +92,27 @@
                 >
                     <li
                         v-for="variation in queryVariations"
-                        :key="variation"
+                        :key="variation.query"
                         class="py-4"
                     >
-                        <div class="flex space-x-3">
-                            <div class="flex-1 space-y-1">
-                                <div class="flex items-center justify-between">
-                                    <h3 class="text-sm font-medium">
-                                        {{ variation }}
-                                    </h3>
+                        <a
+                            :href="makeGoogleSearchUrl(variation.query).href"
+                            target="_blank"
+                            class="block hover:bg-gray-50"
+                        >
+                            <div class="flex space-x-3">
+                                <div class="flex-1 space-y-1">
+                                    <div class="flex flex-col items-center justify-between">
+                                        <h3 class="text-sm font-medium">
+                                            {{ variation.label }}
+                                        </h3>
+                                        <p class="text-sm text-gray-500">
+                                            {{ variation.query }}
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -118,6 +127,7 @@ import type {
 import {
     buildQuery,
     getVariations,
+    makeGoogleSearchUrl,
 } from '~/utils/queries'
 import { getQueries, storeQuery } from '~/utils/storage'
 
@@ -228,6 +238,8 @@ export default {
         // } )
     },
     methods: {
+        makeGoogleSearchUrl,
+
         perkInTerms ( perk ) {
             return this.options.terms.toLowerCase().includes( perk.toLowerCase() )
         },
