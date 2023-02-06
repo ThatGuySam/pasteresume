@@ -75,7 +75,7 @@ test( 'Can build for remote marketing jobs from the past month', () => {
     const febQuery = buildQuery( febQueryParts )
 
     expect( febQuery )
-        .toBe( 'remote marketing site:greenhouse.io after:2023-01' )
+        .toBe( 'remote marketing site:greenhouse.io after:2023-01-01' )
 
     // Expect that parsed query is the same as the original
     expect( parseQuery( febQuery ) )
@@ -92,7 +92,7 @@ test( 'Can build for remote marketing jobs from the past month', () => {
     const janQuery = buildQuery( janQueryParts )
 
     expect( janQuery )
-        .toBe( 'remote marketing site:greenhouse.io after:2022-12' )
+        .toBe( 'remote marketing site:greenhouse.io after:2022-12-01' )
 
     // Expect that parsed query is the similar to the original
     expect( parseQuery( janQuery ) )
@@ -175,23 +175,23 @@ test( 'Can set salary range', () => {
 
 test( 'Can get date variations from query', () => {
     // Build query to get variations
-    const febQuery = 'remote marketing site:greenhouse.io after:2023-01'
+    const febQuery = 'remote marketing site:greenhouse.io after:2023-02-01'
 
     const variations = getVariations( febQuery )
 
     expect( variations )
         .toEqual( expect.arrayContaining( [
-            'remote marketing site:greenhouse.io before:2023-01 after:2022-12',
-            'remote marketing site:greenhouse.io before:2022-12 after:2022-11',
-            'remote marketing site:greenhouse.io before:2022-11 after:2022-10',
-            'remote marketing site:greenhouse.io before:2022-10 after:2022-09',
-            'remote marketing site:greenhouse.io before:2022-09 after:2022-08',
-            'remote marketing site:greenhouse.io before:2022-08 after:2022-07',
-            'remote marketing site:greenhouse.io before:2022-07 after:2022-06',
-            'remote marketing site:greenhouse.io before:2022-06 after:2022-05',
-            'remote marketing site:greenhouse.io before:2022-05 after:2022-04',
-            'remote marketing site:greenhouse.io before:2022-04 after:2022-03',
-            'remote marketing site:greenhouse.io before:2022-03 after:2022-02',
+            'remote marketing site:greenhouse.io before:2023-01-01 after:2022-12-01',
+            'remote marketing site:greenhouse.io before:2022-12-01 after:2022-11-01',
+            'remote marketing site:greenhouse.io before:2022-11-01 after:2022-10-01',
+            'remote marketing site:greenhouse.io before:2022-10-01 after:2022-09-01',
+            'remote marketing site:greenhouse.io before:2022-09-01 after:2022-08-01',
+            'remote marketing site:greenhouse.io before:2022-08-01 after:2022-07-01',
+            'remote marketing site:greenhouse.io before:2022-07-01 after:2022-06-01',
+            'remote marketing site:greenhouse.io before:2022-06-01 after:2022-05-01',
+            'remote marketing site:greenhouse.io before:2022-05-01 after:2022-04-01',
+            'remote marketing site:greenhouse.io before:2022-04-01 after:2022-03-01',
+            'remote marketing site:greenhouse.io before:2022-03-01 after:2022-02-01',
         ] ) )
 } )
 

@@ -30,7 +30,7 @@ function formatForDateOperator ( date: Date ): string {
     const month = date.getMonth() + 1
     const monthString = String( month ).padStart( 2, '0' )
 
-    return `${ year }-${ monthString }`
+    return `${ year }-${ monthString }-01`
 }
 
 function parseLastMonthFromString ( dateString?: QueryPart['input'] ): string {
