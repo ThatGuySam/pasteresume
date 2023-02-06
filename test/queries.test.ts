@@ -175,23 +175,60 @@ test( 'Can set salary range', () => {
 
 test( 'Can get date variations from query', () => {
     // Build query to get variations
-    const febQuery = 'remote marketing site:greenhouse.io after:2023-02-01'
+    const febQuery = 'remote marketing site:jobs.io after:2023-02-01'
 
     const variations = getVariations( febQuery )
 
     expect( variations )
         .toEqual( expect.arrayContaining( [
-            'remote marketing site:greenhouse.io before:2023-01-01 after:2022-12-01',
-            'remote marketing site:greenhouse.io before:2022-12-01 after:2022-11-01',
-            'remote marketing site:greenhouse.io before:2022-11-01 after:2022-10-01',
-            'remote marketing site:greenhouse.io before:2022-10-01 after:2022-09-01',
-            'remote marketing site:greenhouse.io before:2022-09-01 after:2022-08-01',
-            'remote marketing site:greenhouse.io before:2022-08-01 after:2022-07-01',
-            'remote marketing site:greenhouse.io before:2022-07-01 after:2022-06-01',
-            'remote marketing site:greenhouse.io before:2022-06-01 after:2022-05-01',
-            'remote marketing site:greenhouse.io before:2022-05-01 after:2022-04-01',
-            'remote marketing site:greenhouse.io before:2022-04-01 after:2022-03-01',
-            'remote marketing site:greenhouse.io before:2022-03-01 after:2022-02-01',
+            {
+                label: 'January, 2023',
+                query: 'remote marketing site:jobs.io before:2023-02-01 after:2023-01-01',
+            },
+            {
+                label: 'December, 2022',
+                query: 'remote marketing site:jobs.io before:2023-01-01 after:2022-12-01',
+            },
+            {
+                label: 'November, 2022',
+                query: 'remote marketing site:jobs.io before:2022-12-01 after:2022-11-01',
+            },
+            {
+                label: 'October, 2022',
+                query: 'remote marketing site:jobs.io before:2022-11-01 after:2022-10-01',
+            },
+            {
+                label: 'September, 2022',
+                query: 'remote marketing site:jobs.io before:2022-10-01 after:2022-09-01',
+            },
+            {
+                label: 'August, 2022',
+                query: 'remote marketing site:jobs.io before:2022-09-01 after:2022-08-01',
+            },
+            {
+                label: 'July, 2022',
+                query: 'remote marketing site:jobs.io before:2022-08-01 after:2022-07-01',
+            },
+            {
+                label: 'June, 2022',
+                query: 'remote marketing site:jobs.io before:2022-07-01 after:2022-06-01',
+            },
+            {
+                label: 'May, 2022',
+                query: 'remote marketing site:jobs.io before:2022-06-01 after:2022-05-01',
+            },
+            {
+                label: 'April, 2022',
+                query: 'remote marketing site:jobs.io before:2022-05-01 after:2022-04-01',
+            },
+            {
+                label: 'March, 2022',
+                query: 'remote marketing site:jobs.io before:2022-04-01 after:2022-03-01',
+            },
+            {
+                label: 'February, 2022',
+                query: 'remote marketing site:jobs.io before:2022-03-01 after:2022-02-01',
+            },
         ] ) )
 } )
 

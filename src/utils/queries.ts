@@ -18,8 +18,11 @@ function shiftMonth ( date: Date, months: number ): Date {
     return new Date( date.getFullYear(), date.getMonth() + months, 1 )
 }
 
+function parseDateFromString ( dateString?: QueryPart['input'] ): Date {
+    return chrono.parseDate( String( dateString ) ) || new Date()
+}
 function parseLastMonthDateFromString ( dateString?: QueryPart['input'] ): Date {
-    const inputDate = chrono.parseDate( String( dateString ) ) || new Date()
+    const inputDate = parseDateFromString( dateString )
 
     // Let's rewind the clocks back to last month
     return shiftMonth( inputDate, -1 )
@@ -250,13 +253,18 @@ function setOperator ( query: string, operators: {
     return query
 }
 
+export interface Variation {
+    label: string
+    query: string
+}
+
 // Parse a query string into an array of variations
-export function getVariations ( query: string ): string[] {
+export function getVariations ( query: string ): Variation[] {
     // Build variations for the previous 12 months
-    const variations: string[] = []
+    const variations: Variation[] = []
 
     // Get intial date in query or use last month
-    const initialDate = parseLastMonthDateFromString( query )
+    const initialDate = parseDateFromString( query )
 
     // Get query sans before and after operators
     const queryWithoutDates = query
@@ -267,11 +275,18 @@ export function getVariations ( query: string ): string[] {
     let runningDate = initialDate
 
     for ( let i = 0; i < 12; i++ ) {
+        const before = formatForDateOperator( runningDate )
+        const afterDate = shiftMonth( runningDate, -1 )
+        const after = formatForDateOperator( afterDate )
+
         // Add variation to variations
-        variations.push( setOperator( queryWithoutDates, {
-            before: formatForDateOperator( runningDate ),
-            after: formatForDateOperator( shiftMonth( runningDate, -1 ) ),
-        } ) )
+        variations.push( {
+            label: `${ afterDate.toLocaleString( 'default', { month: 'long' } ) }, ${ afterDate.getFullYear() }`,
+            query: setOperator( queryWithoutDates, {
+                before,
+                after,
+            } ),
+        } )
 
         // Shift date back one month
         runningDate = shiftMonth( runningDate, -1 )
