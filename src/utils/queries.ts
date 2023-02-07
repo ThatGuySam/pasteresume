@@ -152,9 +152,23 @@ function parseAfter ( part: string ): QueryPart {
     }
 }
 
+function parseBefore ( part: string ): QueryPart {
+    return {
+        type: 'before',
+        input: part,
+    }
+}
+
+const ignoredQueryParts = new Set( [
+    '(',
+    ')',
+    'OR',
+    'AND',
+] )
+
 function parseQueryPart ( part: string ): QueryPart | undefined {
     // Retunr undefined for parentheses
-    if ( part === '(' || part === ')' ) {
+    if ( ignoredQueryParts.has( part ) ) {
         return undefined
     }
 
@@ -180,6 +194,9 @@ function parseQueryPart ( part: string ): QueryPart | undefined {
     switch ( type ) {
         case 'after':
             return parseAfter( input )
+
+        case 'before':
+            return parseBefore( input )
 
         case 'site':
             return { type, input }
@@ -301,4 +318,56 @@ export function makeGoogleSearchUrl ( query: string ) {
         .replace( /%20/g, '+' )
 
     return new URL( urlString )
+}
+
+export function getQueryParts ( query: string ): {
+    terms: string
+    salary: number[]
+    sites: string[]
+
+} {
+    const queryParts = parseQuery( query )
+
+    const terms: string[] = []
+    const salary: number[] = []
+    const sites: string[] = []
+
+    for ( const part of queryParts ) {
+        // If input is falsy, skip it
+        if ( !part.input ) {
+            continue
+        }
+
+        switch ( part.type ) {
+            case 'text':
+                // Throw on non-string inputs
+                if ( typeof part.input !== 'string' ) {
+                    throw new TypeError( `Expected string input for text query part, got ${ typeof part.input }` )
+                }
+                terms.push( part.input )
+                break
+
+            case 'salary':
+                // Throw on non-number inputs
+                if ( !Array.isArray( part?.input ) || typeof part?.input?.[ 0 ] !== 'number' ) {
+                    throw new TypeError( `Expected number input for salary query part, got ${ typeof part?.input?.[ 0 ] }` )
+                }
+                salary.push( ...part.input )
+                break
+
+            case 'site':
+                // Throw on non-string inputs
+                if ( typeof part.input !== 'string' ) {
+                    throw new TypeError( `Expected string input for site query part, got ${ typeof part.input }` )
+                }
+                sites.push( part.input )
+                break
+        }
+    }
+
+    return {
+        terms: terms.join( ' ' ),
+        salary,
+        sites,
+    }
 }

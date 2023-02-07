@@ -2,6 +2,7 @@ import { expect, test } from 'vitest'
 import type { QueryPart } from '~/utils/queries'
 import {
     buildQuery,
+    getQueryParts,
     getVariations,
     makeGoogleSearchUrl,
     parseQuery,
@@ -243,4 +244,26 @@ test( 'Can make Google Search URL from query text', () => {
     // Expect href to match
     expect( makeGoogleSearchUrl( query ).href )
         .toEqual( expectedUrl.href )
+} )
+
+test( 'Can get query parts object', () => {
+    const query = 'Marketing Remote Health Insurance 70000..250000 ( site:greenhouse.io OR site:breezy.hr OR site:lever.co OR site:apply.workable.com OR site:bamboohr.com OR site:jobs.lever.co ) before:2023-01 after:2022-12'
+
+    const expectedParts = {
+        terms: 'Marketing Remote Health Insurance',
+        salary: [ 70000, 250000 ],
+        sites: [
+            'greenhouse.io',
+            'breezy.hr',
+            'lever.co',
+            'apply.workable.com',
+            'bamboohr.com',
+            'jobs.lever.co',
+        ],
+        // before: '2023-01',
+        // after: '2022-12',
+    }
+
+    expect( getQueryParts( query ) )
+        .toEqual( expectedParts )
 } )
