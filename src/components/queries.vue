@@ -1,7 +1,7 @@
 <template>
     <div class="wrapper flex justify-center">
         <div
-            class="container max-w-sm border p-6" :class="[
+            class="app-container max-w-sm border p-6" :class="[
                 !loaded && 'shimmer',
             ]"
         >
