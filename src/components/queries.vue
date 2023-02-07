@@ -106,17 +106,22 @@
                             <a
                                 :href="makeGoogleSearchUrl(variation.query).href"
                                 target="_blank"
-                                class="block hover:bg-gray-50"
+                                class="block group visited:text-purple-500"
                             >
                                 <div class="flex space-x-3">
                                     <div class="flex-1 space-y-1">
-                                        <div class="flex flex-col items-center justify-between">
-                                            <h3 class="text-sm font-medium">
+                                        <div class="flex flex-col justify-between">
+                                            <h3 class="text-sm font-medium group-hover:underline">
                                                 {{ variation.label }}
                                             </h3>
-                                            <p class="text-sm text-gray-500">
-                                                {{ variation.query }}
-                                            </p>
+                                            <div class="w-full text-gray-500 py-3">
+                                                <input
+                                                    read-only
+                                                    type="text"
+                                                    class="w-full min-w-0 flex-1 text-xs bg-transparent rounded-full border border-gray-300 cursor-pointer px-3 py-2"
+                                                    :value="variation.query"
+                                                >
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
