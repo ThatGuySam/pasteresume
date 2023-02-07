@@ -140,23 +140,6 @@ import {
 } from '~/utils/queries'
 import { getQueries, storeQuery } from '~/utils/storage'
 
-const people = [
-    {
-        name: 'Lindsay Walton',
-        imageUrl:
-      'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=3&w=256&h=256&q=80',
-    },
-    // More people...
-]
-const activityItems = Array.from( { length: 5 }, ( _, i ) => ( {
-    id: i,
-    person: people[ i % people.length ],
-    time: '4:32 PM',
-    project: 'Tailwind CSS',
-    commit: 'f7df826',
-    environment: 'Production',
-} ) )
-
 export default {
     name: 'Queries',
     data () {
@@ -188,8 +171,6 @@ export default {
                     // 'Gym Membership',
                 ],
             },
-            people,
-            activityItems,
         }
     },
     computed: {
