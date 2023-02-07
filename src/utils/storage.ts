@@ -32,7 +32,11 @@ export async function getStorage () {
 
 export interface StoredQuery {
     text: string
-    date?: number
+    date: number
+}
+
+export interface StoredQueryOptions extends Partial<StoredQuery> {
+    text: string
 }
 
 function derriveUUIDFromQuery ( query: string ) {
@@ -54,28 +58,43 @@ export async function getQueries (): Promise<StoredQuery[]> {
 
     const queryKeys = await getQueryKeys()
 
-    const queries = await Promise.all( queryKeys.map( ( key ) => {
+    const unsortedQueries = await Promise.all( queryKeys.map( ( key ) => {
         // We have to omit the base key from the key name
         // since we're already on Query storage
         const queryUUID = key.replace( `${ queriesBase }:`, '' )
 
-        return storage.getItem( queryUUID )
+        return storage.getItem( queryUUID ) as Promise<StoredQuery>
     } ) )
 
-    return queries as Array<StoredQuery>
+    const queries = unsortedQueries
+        // Sort by date
+        .sort( ( a, b ) => {
+            if ( a.date > b.date ) {
+                return -1
+            }
+            if ( a.date < b.date ) {
+                return 1
+            }
+            return 0
+        } )
+
+    return queries
 }
 
-export async function storeQuery ( query: StoredQuery ): Promise<StoredQuery> {
+export async function storeQuery ( query: StoredQueryOptions ): Promise<StoredQuery> {
     const storage = await getStorage()
 
     // Set the date to now if it's not set
-    query.date = Date.now()
+    const storedQuery: StoredQuery = {
+        ...query,
+        date: query.date || Date.now(),
+    }
 
-    const key = derriveUUIDFromQuery( query.text )
+    const key = derriveUUIDFromQuery( storedQuery.text )
 
-    await storage.setItem( key, query )
+    await storage.setItem( key, storedQuery )
 
-    return query
+    return storedQuery
 }
 
 export async function watchQueries ( callback: ( queries: any ) => void ): Promise<ReturnType<typeof storage.watch>> {
