@@ -8,10 +8,9 @@ export interface QueryPart {
 const hrSites = [
     'greenhouse.io',
     'breezy.hr',
-    'lever.co',
+    'jobs.lever.co',
     'apply.workable.com',
     'bamboohr.com',
-    'jobs.lever.co',
 ]
 
 function shiftMonth ( date: Date, months: number ): Date {

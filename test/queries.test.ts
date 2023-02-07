@@ -120,7 +120,7 @@ test( 'Can all hr sites when not set', () => {
     const designerQuery = buildQuery( designerQueryParts )
 
     expect( designerQuery )
-        .toBe( 'remote designer ( site:greenhouse.io OR site:breezy.hr OR site:lever.co OR site:apply.workable.com OR site:bamboohr.com OR site:jobs.lever.co )' )
+        .toBe( 'remote designer ( site:greenhouse.io OR site:breezy.hr OR site:jobs.lever.co OR site:apply.workable.com OR site:bamboohr.com )' )
 
     // Expect that parsed query is the similar to the original
     expect( parseQuery( designerQuery ) )
@@ -247,7 +247,7 @@ test( 'Can make Google Search URL from query text', () => {
 } )
 
 test( 'Can get query parts object', () => {
-    const query = 'Marketing Remote Health Insurance 70000..250000 ( site:greenhouse.io OR site:breezy.hr OR site:lever.co OR site:apply.workable.com OR site:bamboohr.com OR site:jobs.lever.co ) before:2023-01 after:2022-12'
+    const query = 'Marketing Remote Health Insurance 70000..250000 ( site:greenhouse.io OR site:breezy.hr OR site:jobs.lever.co OR site:apply.workable.com OR site:bamboohr.com ) before:2023-01 after:2022-12'
 
     const expectedParts = {
         terms: 'Marketing Remote Health Insurance',
@@ -255,10 +255,9 @@ test( 'Can get query parts object', () => {
         sites: [
             'greenhouse.io',
             'breezy.hr',
-            'lever.co',
+            'jobs.lever.co',
             'apply.workable.com',
             'bamboohr.com',
-            'jobs.lever.co',
         ],
         // before: '2023-01',
         // after: '2022-12',
