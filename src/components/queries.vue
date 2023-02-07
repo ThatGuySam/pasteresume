@@ -118,7 +118,7 @@
                                                 <input
                                                     read-only
                                                     type="text"
-                                                    class="w-full min-w-0 flex-1 text-xs bg-transparent rounded-full border border-gray-300 cursor-pointer px-3 py-2"
+                                                    class="w-full min-w-0 flex-1 text-xs bg-transparent rounded-full border border-gray-300 group-hover:border-indigo-600 cursor-pointer px-3 py-2"
                                                     :value="variation.query"
                                                 >
                                                 <button
