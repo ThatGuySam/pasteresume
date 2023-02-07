@@ -135,6 +135,7 @@ import type {
 } from '~/utils/queries'
 import {
     buildQuery,
+    getQueryParts,
     getVariations,
     makeGoogleSearchUrl,
 } from '~/utils/queries'
@@ -214,7 +215,11 @@ export default {
                 this.storedQueries = queries
 
                 if ( queries.length ) {
-                    this.options.terms = queries[ 0 ].text
+                    const parts = getQueryParts( queries[ 0 ].text )
+                    this.options.terms = parts.terms
+
+                    this.options.salary.min = parts.salary[ 0 ]
+                    this.options.salary.max = parts.salary[ 1 ]
                 }
 
                 this.loaded = true
