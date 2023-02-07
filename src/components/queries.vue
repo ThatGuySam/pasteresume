@@ -87,14 +87,16 @@
                 </div>
 
                 <div v-else>
-                    <h1>Queries</h1>
-                    <button
-                        type="button"
-                        class="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                        @click="showForm = true"
-                    >
-                        New Terms
-                    </button>
+                    <div class="flex justify-between items-center py-4">
+                        <h1>Queries</h1>
+                        <button
+                            type="button"
+                            class="inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-1 px-2 text-xs font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            @click="showForm = true"
+                        >
+                            New Terms
+                        </button>
+                    </div>
                     <ul
                         role="list" class="divide-y divide-gray-200"
                     >
