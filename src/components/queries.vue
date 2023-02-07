@@ -114,13 +114,19 @@
                                             <h3 class="text-sm font-medium group-hover:underline">
                                                 {{ variation.label }}
                                             </h3>
-                                            <div class="w-full text-gray-500 py-3">
+                                            <div class="flex w-full text-gray-500 py-3 gap-2">
                                                 <input
                                                     read-only
                                                     type="text"
                                                     class="w-full min-w-0 flex-1 text-xs bg-transparent rounded-full border border-gray-300 cursor-pointer px-3 py-2"
                                                     :value="variation.query"
                                                 >
+                                                <button
+                                                    type="button"
+                                                    class="text-sm rounded-full border border-transparent bg-black/40 group-hover:bg-indigo-600 px-3 py-2 font-medium text-white shadow-sm"
+                                                >
+                                                    Search
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
