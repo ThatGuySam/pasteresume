@@ -113,7 +113,7 @@
                                 <div class="flex space-x-3">
                                     <div class="flex-1 space-y-1">
                                         <div class="flex flex-col justify-between">
-                                            <h3 class="text-sm font-medium group-hover:underline">
+                                            <h3 class="text-md font-medium group-hover:underline">
                                                 {{ variation.label }}
                                             </h3>
                                             <div class="flex w-full text-gray-500 py-3 gap-2">
