@@ -11,6 +11,7 @@ const hrSites = [
     'jobs.lever.co',
     'apply.workable.com',
     'bamboohr.com',
+    'jobs.ashbyhq.com'
 ]
 
 function shiftMonth ( date: Date, months: number ): Date {
